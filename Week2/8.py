@@ -25,4 +25,4 @@ if __name__ == '__main__':
     str1 = input("Enter The First String:\n")
     str2 = input("Enter The Second String:\n")
 
-    print("Are String Nearly Equal ?: ", nearly_equal(str1, str2))
+    print("Are String Nearly Equal ?:", nearly_equal(str1, str2))

@@ -11,8 +11,8 @@ def ball_collide(ball1, ball2):
 
 
 if __name__ == '__main__':
-    x1, y1, z1 = map(int, input().split())
-    x2, y2, z2 = map(int, input().split())
+    x1, y1, z1 = map(int, input("Enter X,Y and Radius of Ball1").split())
+    x2, y2, z2 = map(int, input("Enter X,Y and Radius of Ball2").split())
     ball1 = (x1, y1, z1)
     ball2 = (x2, y2, z2)
 

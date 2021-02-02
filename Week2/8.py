@@ -9,12 +9,14 @@ def nearly_equal(string1, string2):
     for character in string2:
         if character in d:
             d[character] -= 1
+        else:
+            d[character]=-1
 
     count = 0
     for key, value in d.items():
-        if value < 0 or count > 2:
+        count += abs(value)
+        if count > 2:
             return False
-        count += value
 
     return True
 

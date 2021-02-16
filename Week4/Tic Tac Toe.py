@@ -66,6 +66,8 @@ class TicTacToe:
             for j in range(3):
                 if j != 2:
                     print(self.board[i][j], end=" | ")
+                else:
+                    print(self.board[i][j],end="")
             if i != 2:
                 print("\n---------")
         print()

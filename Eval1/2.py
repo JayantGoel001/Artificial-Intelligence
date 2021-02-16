@@ -4,4 +4,4 @@ while i < 5:
         print(j, end='s')
     i += 1
 
-#0s0s1s0s1s2s0s1s2s3s
+# 0s0s1s0s1s2s0s1s2s3s

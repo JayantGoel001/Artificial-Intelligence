@@ -29,7 +29,7 @@ def mutateGenes():
 
 def createGNOME():
     gnome = []
-    while len(gnome)!=V:
+    while len(gnome) != V:
         gene = mutateGenes()
         if gene not in gnome:
             gnome.append(gene)
@@ -64,19 +64,19 @@ def selectionReproduction(population):
 
 def crossover(chromosome1, chromosome2):
     child_chromosome = []
-    for i in range(len(chromosome1.chromosome)):
+    for i in range(len(chromosome1.chromosome) - 1):
         prop = random.random()
         if prop < 0.50:
             child_chromosome.append(chromosome1.chromosome[i])
         else:
             child_chromosome.append(chromosome2.chromosome[i])
-
+    child_chromosome.append(child_chromosome[0])
     return Individual(child_chromosome)
 
 
 def mutation(chromosome):
     child_chromosome = []
-    for i in range(len(chromosome.chromosome)):
+    for i in range(1, len(chromosome.chromosome) - 1):
         prob = random.random()
         if prob >= 0.9 or prob <= 0.1:
             child_chromosome.append(mutateGenes())

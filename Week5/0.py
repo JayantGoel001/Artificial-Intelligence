@@ -37,7 +37,19 @@ def initializePopulation():
 
 
 def selectionReproduction(population):
-    return sorted(population, key=lambda x: x.fitness)
+    population = sorted(population, key=lambda x: x.fitness)
+
+    new_generation = []
+    new_generation.extend(population[:int(0.1 * POPULATION_SIZE)])
+
+    for _ in range(int(0.9 * POPULATION_SIZE)):
+        parent1 = random.choice(population[:50])
+        parent2 = random.choice(population[:50])
+        child = crossover(parent1, parent2)
+        mutated_child = mutation(child)
+        new_generation.append(mutated_child)
+
+    return new_generation
 
 
 def crossover(chromosome1, chromosome2):
@@ -67,29 +79,14 @@ def mutation(chromosome):
 
 generation = 1
 population = initializePopulation()
-found = False
 
 while True:
     population = selectionReproduction(population)
 
-    if population[0].fitness <= 0:
-        found = True
+    if population[0].fitness == 0:
         break
 
-    new_generation = []
-    new_generation.extend(population[:int(0.1 * POPULATION_SIZE)])
-
-    for _ in range(int(0.9 * POPULATION_SIZE)):
-        parent1 = random.choice(population[:50])
-        parent2 = random.choice(population[:50])
-        child = crossover(parent1, parent2)
-        mutated_child = mutation(child)
-        new_generation.append(mutated_child)
-
-    population = new_generation
-
-    print(
-        "Generation: {}   String: {}  Fitness: {}".format(generation, "".join(population[0].chromosome), population[0].fitness))
+    print("Generation: {}   String: {}  Fitness: {}".format(generation, "".join(population[0].chromosome), population[0].fitness))
     generation += 1
 
 print("Generation: {}   String: {}  Fitness: {}".format(generation, "".join(population[0].chromosome), population[0].fitness))

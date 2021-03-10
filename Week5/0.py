@@ -93,7 +93,7 @@ while True:
     population = new_generation
 
     print(
-        "Generation: {}   String: {}  Fitness: {}".format(generation, population[0].chromosome, population[0].fitness))
+        "Generation: {}   String: {}  Fitness: {}".format(generation, "".join(population[0].chromosome), population[0].fitness))
     generation += 1
 
-print("Generation: {}   String: {}  Fitness: {}".format(generation, population[0].chromosome, population[0].fitness))
+print("Generation: {}   String: {}  Fitness: {}".format(generation, "".join(population[0].chromosome), population[0].fitness))

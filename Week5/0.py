@@ -43,8 +43,8 @@ def selectionReproduction(population):
     new_generation.extend(population[:int(0.1 * POPULATION_SIZE)])
 
     for _ in range(int(0.9 * POPULATION_SIZE)):
-        parent1 = random.choice(population[:50])
-        parent2 = random.choice(population[:50])
+        parent1 = random.choice(population[:POPULATION_SIZE//2])
+        parent2 = random.choice(population[:POPULATION_SIZE//2])
         child = crossover(parent1, parent2)
         mutated_child = mutation(child)
         new_generation.append(mutated_child)

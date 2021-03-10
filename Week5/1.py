@@ -3,35 +3,39 @@ import random
 POPULATION_SIZE = 100
 
 V = int(input("Enter Vertex:"))
-GENES = "".join([i for i in range(V)])
+GENES = "".join([str(i) for i in range(V)])
 
 
 class Individual:
     def __init__(self, chromsome):
         self.chromosome = chromsome
-        self.graph = self.graph or []
         self.fitness = self.calculateFitness()
 
-    def setGraph(self, graph):
-        self.graph = graph
-
     def calculateFitness(self):
+        global graph
         fitness = 0
 
         for i in range(len(self.chromosome) - 1):
-            if self.graph[i][i + 1] != -1:
-                return -1
+            if graph[self.chromosome[i]][self.chromosome[i + 1]] == -1:
+                return 999999
             else:
-                fitness += self.graph[i][i + 1]
+                fitness += graph[self.chromosome[i]][self.chromosome[i + 1]]
         return fitness
 
 
 def mutateGenes():
-    return random.choice(GENES)
+    return int(random.choice(GENES))
 
 
 def createGNOME():
-    return [mutateGenes() for _ in range(len(V))]
+    gnome = []
+    while len(gnome)!=V:
+        gene = mutateGenes()
+        if gene not in gnome:
+            gnome.append(gene)
+
+    gnome.append(gnome[0])
+    return gnome
 
 
 def initializePopulation():
@@ -44,41 +48,55 @@ def initializePopulation():
 
 
 def selectionReproduction(population):
-    return sorted(population, key=lambda x: x.fitness)
+    population = sorted(population, key=lambda x: x.fitness)
+    new_generation = []
+    new_generation.extend(population[:int(0.1 * POPULATION_SIZE)])
+
+    for _ in range(int(0.9 * POPULATION_SIZE)):
+        parent1 = random.choice(population[:POPULATION_SIZE // 2])
+        parent2 = random.choice(population[:POPULATION_SIZE // 2])
+        child = crossover(parent1, parent2)
+        mutated_child = mutation(child)
+        new_generation.append(mutated_child)
+
+    return new_generation
 
 
 def crossover(chromosome1, chromosome2):
     child_chromosome = []
     for i in range(len(chromosome1.chromosome)):
         prop = random.random()
-        if prop < 0.5:
-            child_chromosome.append(chromosome1.chromosome)
+        if prop < 0.50:
+            child_chromosome.append(chromosome1.chromosome[i])
         else:
-            child_chromosome.append(chromosome2.chromosome)
+            child_chromosome.append(chromosome2.chromosome[i])
 
     return Individual(child_chromosome)
 
 
-def muatation(chromosome):
+def mutation(chromosome):
     child_chromosome = []
-    for i in range(len(chromosome.chromsome)):
+    for i in range(len(chromosome.chromosome)):
         prob = random.random()
-        if prob >= 0.9 or prob < 0.1:
+        if prob >= 0.9 or prob <= 0.1:
             child_chromosome.append(mutateGenes())
         else:
-            child_chromosome.append(chromosome.chromsome[i])
+            child_chromosome.append(chromosome.chromosome[i])
     return Individual(child_chromosome)
 
 
 graph = []
 for i in range(V):
-    graph.append([])
-    for j in range(V):
-        graph[i].append(int(input()))
+    graph.append(list(map(int, input().split())))
 
 generation = 1
 population = initializePopulation()
 
-while True:
+while generation < 1000:
     population = selectionReproduction(population)
+    print("Generation: {}   String: {}  Fitness: {}".format(generation, population[0].chromosome,
+                                                            population[0].fitness))
+    generation += 1
 
+print("Generation: {}   String: {}  Fitness: {}".format(generation, population[0].chromosome,
+                                                        population[0].fitness))

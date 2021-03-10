@@ -1,56 +1,33 @@
-from random import randint
+import random
 
+POPULATION_SIZE = 100
+
+V = int(input("Enter Vertex:"))
+GENES = "".join([i for i in range(V)])
 
 class Individual:
-    def __init__(self, gnome, fitness):
-        self.gnome = gnome
-        self.fitness = fitness
+    def __init__(self, chromsome):
+        self.chromosome = chromsome
+        self.graph = self.graph or []
+        self.fitness = self.calculateFitness()
+
+    def setGraph(self, graph):
+        self.graph = graph
+
+    def calculateFitness(self):
+        fitness = 0
+
+        for i in range(len(self.chromosome) - 1):
+            if self.graph[i][i + 1] != -1:
+                return -1
+            else:
+                fitness += self.graph[i][i + 1]
+        return fitness
 
 
-def rand_num(start, end):
-    r = end - start
-    rnum = start + randint(0, r)
-    return rnum
 
-
-def repeat(s, ch):
-    for i in range(len(s)):
-        if s[i] == ch:
-            return True
-    return False
-
-
-def mutatedGene(gnome, V):
-    while True:
-        r = rand_num(1, V)
-        r1 = rand_num(1, V)
-        if r1 != r:
-            temp = gnome[r]
-            gnome[r] = gnome[r1]
-            gnome[r1] = temp
-            break
-    return gnome
-
-
-def create_gnome(V):
-    gnome = "0"
-    while True:
-        if len(gnome) == V:
-            gnome += gnome[0]
-            break
-        temp = rand_num(1, V)
-        if not repeat(gnome, chr(temp + 48)):
-            gnome += chr(temp + 48)
-    return gnome
-
-
-def call_fitness(gnome):
-    pass
-
-
-def cooldown(temp):
-    return 90 * temp / 100
-
-
-def lessthan(t1, t2):
-    return t1.fitness < t2.fitness
+graph = []
+for i in range(V):
+    graph.append([])
+    for j in range(V):
+        graph[i].append(int(input()))

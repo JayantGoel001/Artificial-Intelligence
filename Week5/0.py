@@ -21,17 +21,13 @@ class Individual:
 
 
 def mutateGenes():
-    global GENES
     return random.choice(GENES)
 
 
 def createGNOME():
-    global TARGET
     return [mutateGenes() for _ in range(len(TARGET))]
 
-
 def initializePopulation():
-    global POPULATION_SIZE
     population = []
     for _ in range(POPULATION_SIZE):
         gnome = createGNOME()

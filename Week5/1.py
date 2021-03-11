@@ -63,25 +63,31 @@ def selectionReproduction(population):
 
 
 def crossover(chromosome1, chromosome2):
-    child_chromosome = []
-    for i in range(len(chromosome1.chromosome) - 1):
-        prop = random.random()
-        if prop < 0.50:
-            child_chromosome.append(chromosome1.chromosome[i])
-        else:
-            child_chromosome.append(chromosome2.chromosome[i])
-    child_chromosome.append(child_chromosome[0])
+    child_chromosome = [" "]*(V+1)
+
+    rand = random.randint(1, V-1)
+
+    child_chromosome[:rand] = chromosome1[:rand]
+    child_chromosome[rand:] = chromosome2[rand:]
+
+    child_chromosome[V] = child_chromosome[0]
+
+    for i in range(V):
+        pass
+
+
     return Individual(child_chromosome)
 
 
 def mutation(chromosome):
-    child_chromosome = []
-    for i in range(1, len(chromosome.chromosome) - 1):
-        prob = random.random()
-        if prob >= 0.9 or prob <= 0.1:
-            child_chromosome.append(mutateGenes())
-        else:
-            child_chromosome.append(chromosome.chromosome[i])
+    child_chromosome = chromosome.chromosome
+    while True:
+        a = random.randint(0, V)
+        b = random.randint(0, V)
+        if a != b:
+            child_chromosome[a], child_chromosome[b] = child_chromosome[b], child_chromosome[a]
+            break
+        child_chromosome[V] = child_chromosome[0]
     return Individual(child_chromosome)
 
 

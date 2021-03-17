@@ -14,10 +14,20 @@ candidates = {
     'Bhawna': ['Systems', 'C#'],
     'Chandni': ['Photoshop', 'Flash']
 }
+candidates_reversed = {}
+for key, value in candidates.items():
+    for lang in value:
+        if lang not in candidates_reversed:
+            candidates_reversed[lang] = []
+        candidates_reversed[lang].append(key)
+
 hired = {
     'Anmol': ['C#']
 }
 for hired_key, hired_value in hired.items():
     for requirements in hired_value:
         project_requirements[requirements] -= 1
+
+print(project_requirements)
+print(candidates_reversed)
 

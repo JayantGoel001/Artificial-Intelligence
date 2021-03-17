@@ -7,18 +7,31 @@ def solutionReached(characters, carry, l):
     carry['1'], l[characters['L']] = carry_remainder(l[characters['G']], l[characters['R']])
     carry['2'], l[characters['L']] = carry_remainder(l[characters['N']], l[characters['O']], carry['1'])
     carry['3'], l[characters['E']] = carry_remainder(l[characters['I']], l[characters['O']], carry['2'])
-    carry['4'], l[characters['B']] = carry_remainder(l[characters['R']], l[characters['D']])
+    carry['4'], l[characters['B']] = carry_remainder(l[characters['R']], l[characters['D']], carry['3'])
 
-    return (l[characters['G']] + l[characters['R']] == 10 * carry['1'] + l[characters['L']]) and (
+    result = (l[characters['G']] + l[characters['R']] == 10 * carry['1'] + l[characters['L']]) and (
             l[characters['N']] + l[characters['O']] + carry['1'] == 10 * carry['2'] + l[characters['L']]) and (
-                   l[characters['I']] + l[characters['O']] + carry['2'] == 10 * carry['3'] + l[characters['E']]) and (
-                   l[characters['R']] + l[characters['D']] + carry['3'] == l[characters['B']])
+                     l[characters['I']] + l[characters['O']] + carry['2'] == 10 * carry['3'] + l[characters['E']]) and (
+                     l[characters['R']] + l[characters['D']] + carry['3'] == l[characters['B']] and carry['4'] == 0)
+
+    d = {}
+    for i in l:
+        if i not in d:
+            d[i] = 1
+        else:
+            return False
+
+    return result
 
 
-def isSafe(x, l):
-    if x in l:
+def isSafe(i, x, l):
+    if i in l:
         return False
-    return True
+    else:
+        if x < len(l):
+            return True
+        else:
+            return False
 
 
 def solvePuzzle():
@@ -38,23 +51,28 @@ def solvePuzzle():
     carry = {
         '1': 0,
         '2': 0,
-        '3': 0
+        '3': 0,
+        '4': 0
     }
-    l = [0 for _ in range(len(characters))]
+    l = [-1 for _ in range(len(characters))]
     if solvePuzzleUtil(0, l, carry, characters):
-        print(l)
+        reverse_map = {value: key for key, value in characters.items()}
+        for i in range(len(l)):
+            print(reverse_map[i], ":", l[i])
+    else:
+        print("Solution Does Not Exists.")
 
 
 def solvePuzzleUtil(x, l, carry, characters):
-    if x == len(l)-1 and solutionReached(characters, carry, l):
+    if x == len(l) and solutionReached(characters, carry, l):
         return True
 
-    for i in range(1, 10):
-        if isSafe(i, l) and x<len(l):
+    for i in range(0, 10):
+        if isSafe(i, x, l):
             l[x] = i
-            print(l)
-            solvePuzzleUtil(x + 1, l, carry, characters)
-            l[x] = 0
+            if solvePuzzleUtil(x + 1, l, carry, characters):
+                return True
+            l[x] = -1
 
     return False
 

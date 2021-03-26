@@ -97,7 +97,6 @@ def selectionReproduction(population):
     # returning the new genaration population.
     return new_generation
 
-
 # Doing the Uniform crossover.
 def crossover(chromosome1, chromosome2):
     child_chromosome = []

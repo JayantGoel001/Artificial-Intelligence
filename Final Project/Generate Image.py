@@ -20,6 +20,7 @@ TARGET_SIZE = TARGET_IMAGE.shape[0]
 minValue = min(TARGET_IMAGE)
 maxValue = max(TARGET_IMAGE)
 
+
 class Individual:
     def __init__(self, chromosome):
         self.chromosome = chromosome
@@ -75,7 +76,9 @@ def mutation(chromosome):
     child_chromosome = []
     for i in range(len(chromosome.chromosome)):
         prob = random.random()
-        if prob >= 0.9 or prob <= 0.1:
+        if prob <= 0.03:
+            child_chromosome.append(TARGET_IMAGE[i])
+        elif prob<=0.1 or prob >= 0.9:
             child_chromosome.append(mutateGenes())
         else:
             child_chromosome.append(chromosome.chromosome[i])
@@ -91,13 +94,12 @@ while generation <= max_generations:
 
     if population[0].fitness == 0:
         generated_image = np.asarray(population[0].chromosome).reshape(width, height, 3)
-        cv2.imwrite("Generated Images/Ultimate image.jpg", generated_image)
+        cv2.imwrite("Generated Images/Ultimate image.jpg", cv2.cvtColor(generated_image.astype('uint8'), cv2.COLOR_BGR2RGB))
         break
-    if generation % int(0.01 * max_generations)==0:
-        print("Current Generation :", generation)
 
-    if generation % int(0.1 * max_generations) == 0:
+    if generation % int(0.01 * max_generations) == 0:
+        print("Current Generation :", generation)
         generated_image = np.asarray(population[0].chromosome).reshape(width, height, 3)
-        cv2.imwrite("Generated Images/image {}.jpg".format(generation), generated_image)
+        cv2.imwrite("Generated Images/image {}.jpg".format(generation), cv2.cvtColor(generated_image.astype('uint8'), cv2.COLOR_BGR2RGB))
         print("Generated Image saved with fitness value", population[0].fitness)
     generation += 1

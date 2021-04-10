@@ -92,11 +92,11 @@ while generation <= max_generations:
 
     if population[0].fitness == 0:
         generated_image = np.asarray(population[0].chromosome).reshape(width, height, 3)
-        cv2.imwrite("Ultimate image.jpg", generated_image)
+        cv2.imwrite("Generated Images/Ultimate image.jpg", generated_image)
         break
 
     if generation % int(0.1 * max_generations) == 0:
         generated_image = np.asarray(population[0].chromosome).reshape(width, height, 3)
-        cv2.imwrite("generated image {}.jpg".format(generation), generated_image)
+        cv2.imwrite("Generated Images/image {}.jpg".format(generation), generated_image)
         print("Generated Image saved with fitness value", population[0].fitness)
     generation += 1

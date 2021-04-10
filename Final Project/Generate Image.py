@@ -87,13 +87,14 @@ generation = 0
 population = initializePopulation()
 
 while generation <= max_generations:
-    print("Current Generation :", generation)
     population = selectiveReproduction(population)
 
     if population[0].fitness == 0:
         generated_image = np.asarray(population[0].chromosome).reshape(width, height, 3)
         cv2.imwrite("Generated Images/Ultimate image.jpg", generated_image)
         break
+    if generation % int(0.01 * max_generations)==0:
+        print("Current Generation :", generation)
 
     if generation % int(0.1 * max_generations) == 0:
         generated_image = np.asarray(population[0].chromosome).reshape(width, height, 3)

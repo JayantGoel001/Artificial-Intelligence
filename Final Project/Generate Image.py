@@ -76,7 +76,7 @@ def mutation(chromosome):
     child_chromosome = []
     for i in range(len(chromosome.chromosome)):
         prob = random.random()
-        if prob <= 0.03:
+        if prob <= 0.01 or prob>=0.99:
             child_chromosome.append(TARGET_IMAGE[i])
         elif prob<=0.1 or prob >= 0.9:
             child_chromosome.append(mutateGenes())

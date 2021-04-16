@@ -42,7 +42,7 @@ def evaluate(board):
     return 0
 
 
-def minimax(board, depth, isMax):
+def minimax(board, depth, isMax, alpha, beta):
     score = evaluate(board)
     if score == 10 or score == -10:
         return score
@@ -56,8 +56,11 @@ def minimax(board, depth, isMax):
             for j in range(3):
                 if board[i][j] == e:
                     board[i][j] = x
-                    best = max(best, minimax(board, depth + 1, not isMax))
+                    best = max(best, minimax(board, depth + 1, not isMax, alpha, beta))
+                    alpha = max(best, alpha)
                     board[i][j] = e
+                if beta <= alpha:
+                    break
         return best
     else:
         best = 1000
@@ -65,8 +68,11 @@ def minimax(board, depth, isMax):
             for j in range(3):
                 if board[i][j] == e:
                     board[i][j] = o
-                    best = min(best, minimax(board, depth + 1, not isMax))
+                    best = min(best, minimax(board, depth + 1, not isMax, alpha, beta))
+                    beta = min(best, beta)
                     board[i][j] = e
+                if beta <= alpha:
+                    break
         return best
 
 def getBestMove(board):
@@ -77,7 +83,7 @@ def getBestMove(board):
         for j in range(3):
             if board[i][j] == e:
                 board[i][j] = x
-                moveVal = minimax(board, 0, False)
+                moveVal = minimax(board, 0, False, alpha=-1000, beta=1000)
                 board[i][j] = e
 
                 if moveVal > bestVal:

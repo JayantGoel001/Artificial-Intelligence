@@ -31,3 +31,9 @@ conflict(Colouring):-
     adjacent(X,Y),
     color(X,Color,Colouring),
     color(Y,Color,Colouring).
+
+conflict(X,Y,Colouring):-
+    adjacent(X,Y),
+    color(X,Color,Colouring),
+    color(Y,Color,Colouring).
+

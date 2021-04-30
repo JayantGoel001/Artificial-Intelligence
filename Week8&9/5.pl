@@ -1,35 +1,41 @@
-h(Nationality, Pet, Cigarette, Drink, Color).
+exists(A,list(A,_,_,_,_)).
+exists(A,list(_,A,_,_,_)).
+exists(A,list(_,_,A,_,_)).
+exists(A,list(_,_,_,A,_)).
+exists(A,list(_,_,_,_,A)).
 
-zebra_owner(Owner):-
-    houses(Hs),
-    member(h(Owner,zebra,_,_,_),Hs).
+first(A,list(A,_,_,_,_)).
+middle(A,list(_,_,A,_,_)).
 
-water_drinker(Drinker):-
-    houses(Hs),
-    member(h(Drinker,_,_,water,_),Hs).
+rightOf(R,L,list(L,R,_,_,_)).
+rightOf(R,L,list(_,L,R,_,_)).
+rightOf(R,L,list(_,_,L,R,_)).
+rightOf(R,L,list(_,_,_,L,R)).
+
+nextTo(A,B,list(A,B,_,_,_)).
+nextTo(A,B,list(_,A,B,_,_)).
+nextTo(A,B,list(_,_,A,B,_)).
+nextTo(A,B,list(_,_,_,A,B)).
+
+nextTo(A,B,list(B,A,_,_,_)).
+nextTo(A,B,list(_,B,A,_,_)).
+nextTo(A,B,list(_,_,B,A,_)).
+nextTo(A,B,list(_,_,_,B,A)).
+
+puzzle(Houses):-
+    exists(house(red,englishman,_,_,_),Houses),
+    exists(house(_,spaniard,dog,_,_),Houses),
+    exists(house(green,_,_,coffee,_),Houses),
+    exists(house(_,ukraine,_,tea,_),Houses),
+    rightOf(house(green,_,_,_,_),house(ivory,_,_,_,_),Houses),
+    exists(house(_,_,snails,_,old_gold),Houses),
+    exists(house(yellow,_,_,_,kool),Houses),
+    middle(house(_,_,_,milk,_),Houses),
+    first(house(_,norwegian,_,_,_),Houses),
+    nextTo(house(_,_,_,_,chesterfields),house(_,_,fox,_,_),Houses),
+    nextTo(house(_,_,_,_,kool),house(_,_,horse,_,_),Houses),
+    exists(house(_,_,_,orange_juice,lucky_strike),Houses),
+    exists(house(_,japanese,_,_,parliament),Houses),
+    nextTo(house(_,norwegian,_,_,_),house(blue,_,_,_,_),Houses).
 
 
-houses(Hs):-
-    length(Hs,5),
-    member(h(english,_,_,_,red),Hs),
-    member(h(spanish,dog,_,_,_),Hs),
-    member(h(_,_,_,coffee,green),Hs),
-    member(h(ukraine,_,_,tea,_),Hs),
-    adjacent(h(_,_,_,_,green),h(_,_,_,_,white),Hs),
-    member(h(_,serpent,winston,_,_),Hs),
-    member(h(_,_,kool,_,yellow),Hs),
-    Hs = [_,_,h(_,_,_,milk,_),_,_],
-    Hs = [h(norwegian,_,_,_,_)|_],
-    adjacent(h(_,fox,_,_,_),h(_,_,chesterfield,_,_),Hs),
-    adjacent(h(_,_,kool,_,_),h(_,horse,_,_,_),Hs),
-    member(h(_,_,lucky_strike,juice,_),Hs),
-    member(h(japanese,_,kent,_,_),Hs),
-    adjacent(h(nowegian,_,_,_,_),h(_,_,_,_,blue),Hs),
-    member(h(_,_,_,water,_),Hs),
-    member(h(_,zebra,_,_,_),Hs).
-
-
-adjacent(A,B,Ls):-
-    append(_,[A,B|_],Ls).
-adjacent(A,B,Ls):-
-    append(_,[B,A|_],Ls).
